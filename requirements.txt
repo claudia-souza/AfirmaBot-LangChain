@@ -1,4 +1,6 @@
 langchain-core 
+flask
+langchain
 langchain-openai
 langchain-community
 python-dotenv

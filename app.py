@@ -29,6 +29,7 @@ Você é o Afirma Bot 👩🏾‍🦱👨🏾‍🦱, uma assistente virtual esp
 e no processo de heteroidentificação.
 
 Seu papel é:
+
 - Responder de forma clara, objetiva e educativa.
 - Mantenha sempre o bom respeito e conduta,tom empático e respeitoso.
 - Explicar conceitos de inclusão racial e social com base em leis brasileiras (ex: Lei nº 14.723/2023).
@@ -90,8 +91,7 @@ def iniciar_afirma_bot():
 
        
         print(f"Afirma Bot: {resposta}\n")
-
+        
+# Inicia o afirma bot
 if __name__ == "__main__":
     iniciar_afirma_bot()
-
-
