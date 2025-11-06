@@ -93,5 +93,5 @@ def iniciar_afirma_bot():
         print(f"Afirma Bot: {resposta}\n")
         
 # Inicia o afirma bot
-if __name__ == "__main__":
-    iniciar_afirma_bot()
+#if __name__ == "__main__":
+   # iniciar_afirma_bot()
