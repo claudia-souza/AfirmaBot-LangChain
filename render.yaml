@@ -1,7 +1,7 @@
 services:
-  type: web
-  name: afirma-bot
-  env: python
-  buildCommand: "pip install -r requirements.txt"
-  startCommand: "waitress-serve --host=0.0.0.0 --port=10000 webhook:app"
-  plan: free
+  - type: web
+    name: afirma-bot
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "waitress-serve --host=0.0.0.0 --port=10000 webhook:app"
+    plan: free

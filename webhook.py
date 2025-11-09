@@ -20,9 +20,9 @@ def webhook():
             "input": pergunta_usuario,
             "history": history.messages
         })
-    except Exception:
-            resposta = chain.run(pergunta_usuario)
-
+    except Exception as e:
+        print(f"Erro ao invocar LangChain: {e}")
+        resposta = "Desculpe, houve um erro ao processar sua pergunta."
     history.add_user_message(pergunta_usuario)
     history.add_ai_message(resposta)
 
