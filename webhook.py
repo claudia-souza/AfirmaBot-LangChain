@@ -14,15 +14,22 @@ def webhook():
 
     history = get_session_history(session_id)
 
-    resposta = chain.invoke({
-        "input": pergunta_usuario,
-        "history": history.messages
-    })
+
+    try:
+        resposta = chain.invoke({
+            "input": pergunta_usuario,
+            "history": history.messages
+        })
+    except Exception:
+            resposta = chain.run(pergunta_usuario)
 
     history.add_user_message(pergunta_usuario)
     history.add_ai_message(resposta)
 
     return jsonify({"fulfillmentText": resposta})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+#comentando pra ver se é esse o bug
+#if __name__ == "__main__":
+   # app.run(host="0.0.0.0", port=5000, debug=True)
