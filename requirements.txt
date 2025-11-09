@@ -1,9 +1,8 @@
-langchain-core 
 flask
-langchain
 gunicorn
-langchain-openai
-langchain-community
 pydantic
 python-dotenv
-
+langchain
+langchain-core
+langchain-openai
+langchain-community
