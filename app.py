@@ -9,19 +9,16 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.output_parsers import StrOutputParser
 
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-
-# Cria o modelo passando a chave lida do .env
-# Chave do GPT 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0.3,
     max_tokens=400,
     frequency_penalty=0.2,
     presence_penalty=0.1,
-    openai_api_key="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"
+    openai_api_key=OPENAI_KEY
 )
-
 
 # Aqui eu determino a função do meu modelo e suas restrições 
 system_template = """

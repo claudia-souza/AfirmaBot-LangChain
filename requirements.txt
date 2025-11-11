@@ -2,7 +2,10 @@ flask
 gunicorn
 pydantic
 python-dotenv
+requests
+openai
 langchain
 langchain-core
 langchain-openai
 langchain-community
+waitress

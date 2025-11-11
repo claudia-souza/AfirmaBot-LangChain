@@ -14,7 +14,6 @@ def webhook():
 
     history = get_session_history(session_id)
 
-
     try:
         resposta = chain.invoke({
             "input": pergunta_usuario,
@@ -23,13 +22,14 @@ def webhook():
     except Exception as e:
         print(f"Erro ao invocar LangChain: {e}")
         resposta = "Desculpe, houve um erro ao processar sua pergunta."
+
     history.add_user_message(pergunta_usuario)
     history.add_ai_message(resposta)
 
     return jsonify({"fulfillmentText": resposta})
 
-
-
-#comentando pra ver se é esse o bug
-#if __name__ == "__main__":
-   # app.run(host="0.0.0.0", port=5000, debug=True)
+# Para rodar localmente (Windows)
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
