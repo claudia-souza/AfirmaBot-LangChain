@@ -1,72 +1,67 @@
 from flask import Flask, request, jsonify
+from threading import Thread
 from app import chain, get_session_history
-import threading
-import time
 
 app = Flask(__name__)
 
-resultados = {}  
+pending_responses = {}
 
-def processar_em_background(session_id, pergunta_usuario):
+
+def process_in_background(session_id, pergunta):
+    """Processa usando LangChain sem travar o Dialogflow"""
+    
+    history = get_session_history(session_id)
+    pending_responses[session_id] = "PROCESSING"
+
     try:
-        history = get_session_history(session_id)
-
         resposta = chain.invoke({
-            "input": pergunta_usuario,
+            "input": pergunta,
             "history": history.messages
         })
 
-        resultados[session_id] = resposta
-
-        # salva no históric
-        history.add_user_message(pergunta_usuario)
+        # salva no histórico
+        history.add_user_message(pergunta)
         history.add_ai_message(resposta)
 
+        pending_responses[session_id] = resposta
+
     except Exception as e:
-        resultados[session_id] = f"Erro ao buscar resposta: {str(e)}"
+        pending_responses[session_id] = f"Erro ao processar: {e}"
+
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.get_json(force=True)
+    body = request.get_json(force=True)
+    intent = body["queryResult"]["intent"]["displayName"]
+    pergunta = body["queryResult"]["queryText"]
+    session_id = body["session"]
 
-    tag = data.get("queryResult", {}).get("intent", {}).get("displayName", "")
-    pergunta_usuario = data.get("queryResult", {}).get("queryText", "")
-    session_id = data.get("session", "default_session")
+    if intent == "start_processing":
 
-    print(f"TAG RECEBIDA: {tag}")
-
-    if tag == "start_processing":
-        if not pergunta_usuario:
-            return jsonify({"fulfillmentText": "Não recebi nenhuma pergunta."})
-
-        thread = threading.Thread(target=processar_em_background,
-                                  args=(session_id, pergunta_usuario))
-        thread.start()
+        Thread(target=process_in_background, args=(session_id, pergunta)).start()
 
         return jsonify({
             "fulfillmentText": (
-                "Estou processando sua solicitação. "
-                "Pergunte novamente: *resultado*, para ver a resposta."
+                "Certo! Estou processando sua solicitação. "
+                "Quando quiser ver o resultado, digite **resultado**."
             )
         })
+    
+    if intent == "get_result":
 
-    if tag == "get_result":
-        if session_id in resultados:
-            resposta = resultados.pop(session_id)
+        resultado = pending_responses.get(session_id, None)
 
-            return jsonify({
-                "fulfillmentText": resposta
-            })
+        if resultado is None:
+            return jsonify({"fulfillmentText": "Nenhum processamento foi iniciado ainda."})
 
-        else:
-            return jsonify({
-                "fulfillmentText": "Ainda estou processando,tente novamente em alguns segundos."
-            })
+        if resultado == "PROCESSING":
+            return jsonify({"fulfillmentText": "Ainda estou processando! Tente novamente em alguns segundos."})
 
-   
-    return jsonify({
-        "fulfillmentText": "Não reconheci a intenção."
-    })
+    
+        return jsonify({"fulfillmentText": resultado})
+
+
+    return jsonify({"fulfillmentText": "Não reconheci a intenção."})
 
 
 if __name__ == "__main__":
