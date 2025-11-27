@@ -14,7 +14,7 @@ OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0, # testando velocidade de resposta com 0 
-    max_tokens=150, #testando 80 token
+    max_tokens=300,
     frequency_penalty=0.2,
     presence_penalty=0.1,
     openai_api_key=OPENAI_KEY
@@ -34,7 +34,7 @@ Seu papel é:
 - Quando a pergunta for genérica (ex: "oi", "olá"), cumprimente e incentive a fazer uma pergunta sobre cotas.
 - Se o usuário fizer perguntas fora do tema, oriente gentilmente que você responde apenas sobre a Lei de Cotas e Heteroidentificação.
 - Evite respostas como "não entendi" ou "mensagem não enviada". Tente sempre dar uma resposta útil.
-- Se a resposta for longa, divida em tópicos curtos e continue em seguida se necessário, para não ultrapassar o limite de 80 tokens.
+- Responda em até 150 tokens, organizando em tópicos curtos.
 
 Responda sempre em português do Brasil BR.
 """
