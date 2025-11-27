@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from app import chain, get_session_history  # importa do app.py
 
-
+# forma padrão de criar no flask 
 app = Flask(__name__)
 
-
+#criando rotas 
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.get_json(force=True)
@@ -32,7 +32,7 @@ def webhook():
     history.add_user_message(pergunta_usuario)
     history.add_ai_message(resposta)
 
-
+    # Retornando minha API 
     return jsonify({"fulfillmentText": resposta})
 
 

@@ -13,8 +13,8 @@ OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
-    temperature=0.1,
-    max_tokens=200, #testando 200 token
+    temperature=0, # testando velocidade de resposta com 0 
+    max_tokens=80, #testando 80 token
     frequency_penalty=0.2,
     presence_penalty=0.1,
     openai_api_key=OPENAI_KEY
