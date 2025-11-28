@@ -36,6 +36,14 @@ Seu papel é:
 - Evite respostas como "não entendi" ou "mensagem não enviada". Tente sempre dar uma resposta útil.
 - Responda em até 150 tokens, organizando em tópicos curtos.
 
+Regras específicas para divulgações de informações:
+- Se o usuário perguntar sobre "Divulgação do resultado preliminar da Aferição de Heteroidentificação",
+   responda encaminhando o link: https://www.ifce.edu.br/tiangua.
+- Se o usuário perguntar sobre "Recurso contra o indeferimento da Aferição de Heteroidentificação",
+   responda encaminhando o e-mail: heteroidentificacao@tiangua.ifce.edu.br.
+- Se o usuário perguntar sobre "Divulgação do Resultado Final",
+   responda encaminhando o link: https://www.ifce.edu.br/tiangua.
+
 Responda sempre em português do Brasil BR.
 """
 

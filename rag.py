@@ -18,6 +18,8 @@ llm = ChatOpenAI(
 )
 
 docs = []
+
+# data ( pasta com pdf )
 folder = Path("data/")
 
 for n in folder.glob("*.pdf"):
@@ -87,6 +89,7 @@ def perguntar_politica_RAG(pergunta: str) -> Dict:
 
     txt = (answer or "").strip()
 
+     # Quando não tiver contexto suficiente ,responder com n sei 
     if txt.rstrip(".!?") == "Não sei":
         return {
             "answer": "Não sei.",
@@ -101,7 +104,19 @@ def perguntar_politica_RAG(pergunta: str) -> Dict:
         "contexto_encontrado": True
     }
 
+
+# testando os Embeddings pelo terminal 
+
 if __name__ == "__main__":
-    pergunta = "O que é heteroidentificação?"
-    resultado = perguntar_politica_RAG(pergunta)
-    print(resultado)
+    print("Digite sua pergunta ou digite 'sair' para encerrar):")
+    while True:
+        pergunta = input("> ")
+        if pergunta.lower() in ["sair", "exit", "quit"]:
+            break
+        resultado = perguntar_politica_RAG(pergunta)
+        print("\nResposta:")
+        print(resultado["answer"])
+        if resultado["contexto_encontrado"]:
+            print(f"(Base de {len(resultado['citacoes'])} chunks de contexto)\n")
+        else:
+            print("(Sem contexto relevante)\n")
