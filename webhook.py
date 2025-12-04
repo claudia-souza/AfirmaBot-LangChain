@@ -1,8 +1,26 @@
 from flask import Flask, request, jsonify
 from app import chain, get_session_history  # importa do app.py
 
+# tentativa do uso do negrito 
+import re
+
+
 # forma padrão de criar no flask 
 app = Flask(__name__)
+
+
+
+# --- Conversor simples de Markdown para HTML ---
+def md_to_html(text):
+    # Negrito **texto**
+    text = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", text)
+    # Itálico *texto*
+    text = re.sub(r"\*(.*?)\*", r"<i>\1</i>", text)
+    return text
+
+# ---------------------------------------------------------
+
+
 
 #criando rotas 
 @app.route("/webhook", methods=["POST"])
@@ -32,8 +50,17 @@ def webhook():
     history.add_user_message(pergunta_usuario)
     history.add_ai_message(resposta)
 
+
+
+    # ---------------------------
+    resposta_html = md_to_html(resposta)
+    
+    return jsonify({"fulfillmentText": resposta_html})
+    #-----------------------------
+
+
     # Retornando minha API 
-    return jsonify({"fulfillmentText": resposta})
+    #return jsonify({"fulfillmentText": resposta})
 
 
 # Para rodar localmente (Windows)

@@ -11,12 +11,13 @@ from langchain_core.output_parsers import StrOutputParser
 
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
+# frequency_penalty=0.2
+# presence_penalty=0.1,
+
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0, # testando velocidade de resposta com 0 
     max_tokens=300,
-    frequency_penalty=0.2,
-    presence_penalty=0.1,
     openai_api_key=OPENAI_KEY
 )
 
