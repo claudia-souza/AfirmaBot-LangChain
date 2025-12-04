@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from app import chain, get_session_history  # importa do app.py
-
+from rag import perguntar_politica_RAG   # importa o RAG
 
 # forma padrão de criar no flask
 app = Flask(__name__)
@@ -21,11 +21,21 @@ def webhook():
     history = get_session_history(session_id)
 
 
+    
     try:
-        resposta = chain.invoke({
-            "input": pergunta_usuario,
-            "history": history.messages
-        })
+        # consulta RAG.py 
+        resultado_rag = perguntar_politica_RAG(pergunta_usuario)
+
+        if resultado_rag["contexto_encontrado"]:
+            # Usa resposta do RAG
+            resposta = resultado_rag["answer"]
+        else:
+            # Se não cai no chain normal com histórico
+            resposta = chain.invoke({
+                "input": pergunta_usuario,
+                "history": history.messages
+            })
+
     except Exception as e:
         print(f"Erro ao invocar LangChain: {e}")
         resposta = "Desculpe, houve um erro ao processar sua pergunta."
