@@ -55,7 +55,17 @@ def webhook():
     # ---------------------------
     resposta_html = md_to_html(resposta)
     
-    return jsonify({"fulfillmentText": resposta_html})
+    # 
+    return jsonify({
+    "fulfillmentMessages": [
+        {
+            "text": {
+                "text": [resposta_html]
+            }
+        }
+    ]
+})
+
     #-----------------------------
 
 
