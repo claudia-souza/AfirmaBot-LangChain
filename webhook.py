@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from app import chain, get_session_history  # importa do app.py
+from app import chain, get_session_history 
+# importa do app.py
 
 # forma padrão de criar no flask 
 app = Flask(__name__)
